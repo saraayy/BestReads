@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Kirja-arvostelu</title>
+</head>
+
+<body>
+    <h1>Kirja-arvostelu</h1>
+  <form action="/create_item" method="post">
+    <p>
+      Kirja: <br />
+      <input type="text" name="title" />
+    </p>
+    <p>
+        Kirjailija: <br />
+        <input type="text" name="author" />
+    </p>
+    <p>
+        Julkaisuvuosi: <br />
+        <input type="text" name="year" size="5" /> 
+    </p>
+    <p>
+        Genre: <br />
+        <input type="text" name="genre" size="15" /> 
+    </p>
+    <p>
+        Arvostelu: <br />
+        <textarea name="description" rows="8" cols="60"></textarea>
+    </p>
+    <p>
+        Tähtiarvio: <br />
+        <input type="text" name="stars" size="5" /> /5
+    </p>
+    <input type="submit" value="Lähetä arvostelu" />
+  </form>
+</body>
+
+</html>
