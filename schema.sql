@@ -5,7 +5,7 @@ CREATE TABLE users (
 );
 
 
-CREATE TABLE items(
+CREATE TABLE reviews(
     id INTEGER PRIMARY KEY,
     title TEXT,
     author TEXT,
@@ -13,5 +13,5 @@ CREATE TABLE items(
     genre TEXT,
     description TEXT,
     stars INTEGER,
-    user_id INTEGER REFRENCES users
+    user_id INTEGER REFERENCES users
 );

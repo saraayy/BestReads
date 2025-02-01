@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask import redirect, render_template, request, session
 import config
 import db
-import items
+import reviews
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -17,12 +17,12 @@ def index():
 def register():
     return render_template("register.html")
 
-@app.route("/new_item")
-def new_item():
-    return render_template("new_item.html")
+@app.route("/new_review")
+def new_review():
+    return render_template("new_review.html")
 
-@app.route("/create_item", methods=["POST"])
-def create_item():
+@app.route("/create_review", methods=["POST"])
+def create_review():
     title = request.form["title"]
     author = request.form["author"]
     year = request.form["year"]
@@ -31,9 +31,7 @@ def create_item():
     stars = request.form["stars"]
     user_id = session["user_id"]
 
-    items.add_item(title, author, year, genre, description, stars, user_id)
-
-
+    reviews.add_review(title, author, year, genre, description, stars, user_id)
 
     return redirect("/")
 
