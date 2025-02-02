@@ -43,6 +43,25 @@ def create_review():
 
     return redirect("/")
 
+@app.route("/edit_review/<int:review_id>")
+def edit_review(review_id):
+    review = reviews.get_review(review_id)
+    return render_template("edit_review.html", review=review)
+
+@app.route("/update_review", methods=["POST"])
+def update_review():
+    review_id = request.form["review_id"]
+    title = request.form["title"]
+    author = request.form["author"]
+    year = request.form["year"]
+    genre = request.form["genre"]
+    description = request.form["description"]
+    stars = request.form["stars"]
+
+    reviews.update_review(review_id, title, author, year, genre, description, stars)
+
+    return redirect("/review/" + str(review_id))
+
 
 @app.route("/create", methods=["POST"])
 def create():
