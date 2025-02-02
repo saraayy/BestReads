@@ -14,6 +14,16 @@ def index():
     all_reviews = reviews.get_reviews()
     return render_template("index.html", reviews=all_reviews)
 
+@app.route("/find_review")
+def find_review():
+    query = request.args.get("query")
+    if query:
+        results = reviews.find_reviews(query)
+    else:
+        query = ""
+        results = []
+    return render_template("find_review.html", query=query, results=results)
+
 @app.route("/register")
 def register():
     return render_template("register.html")
