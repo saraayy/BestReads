@@ -24,7 +24,13 @@
     <a href = "/new_review">Uusi arvostelu</a>
   </p>
 
-  <b2>Arvostelut</b2>
+  <h2>Arvostelut</h2>
+
+  <ul>
+    {% for review in reviews %}
+    <li><a href = "/review/{{ review.id }}">{{ review.title }}</a></li>
+    {% endfor %}
+  </ul>
 
 </body>
 
