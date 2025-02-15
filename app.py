@@ -5,6 +5,7 @@ from flask import redirect, render_template, request, session
 import config
 import db
 import reviews
+import users
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -13,6 +14,12 @@ app.secret_key = config.secret_key
 def index():
     all_reviews = reviews.get_reviews()
     return render_template("index.html", reviews=all_reviews)
+
+@app.route("/user/<int:user_id>")
+def show_user(user_id):
+    user = users.get_user(user_id)
+    reviews = users.get_reviews(user_id)
+    return render_template("show_user.html", user=user, reviews=reviews)
 
 @app.route("/find_review")
 def find_review():
