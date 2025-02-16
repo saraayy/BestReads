@@ -35,9 +35,23 @@
     <p>
         Arvostelija: <a href="/user/{{review.id}}">{{ review.username }}</a> 
     </p>
+    <h2>Kommentit</h2>
+    <ul>
+        {% for c in comments %}
+        <li><a href="/user/{{ c.user_id }}">{{ c.username }}</a>: {{ c.comment }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Uusi kommentti</h2>
+    <form action = "/new_comment" method="post">
+        <input type="text" name="comment" rows="2" cols="15">
+        <input type ="hidden" name ="review_id" value="{{ review.id }}">
+        <input type="submit" value="Lähetä" />
+
+    </form>
     <p>
         <a href ="/">Takaisin</a>
     </p>
+
 </body>
 
 </html>

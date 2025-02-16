@@ -11,6 +11,16 @@ def add_review(title, author, year, description, user_id, classes):
     for title, value in classes:
         db.execute(sql,[review_id, title, value])
 
+def add_comment(review_id, user_id, comment):
+    sql = "INSERT INTO comments (review_id, user_id, comment) VALUES (?, ?, ?)"
+    db.execute(sql, [review_id, user_id, comment])
+
+def get_comment(review_id):
+    sql = """SELECT comments.comment, users.id user_id, users.username
+            FROM comments, users
+            WHERE comments.review_id = ? AND comments.user_id = users.id
+            ORDER BY comments.id DESC"""
+    return db.query(sql, [review_id])
 
 def get_classes(review_id):
     sql = "SELECT title, value FROM review_classes WHERE review_id = ?"

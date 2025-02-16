@@ -40,12 +40,14 @@ def register():
 def show_review(review_id):
     review = reviews.get_review(review_id)
     classes = reviews.get_classes(review_id)
-    return render_template("show_review.html", review=review, classes=classes)
+    comments = reviews.get_comment(review_id)
+    return render_template("show_review.html", review=review, classes=classes, comments=comments)
 
 
 @app.route("/new_review")
 def new_review():
     return render_template("new_review.html")
+
 
 @app.route("/create_review", methods=["POST"])
 def create_review():
@@ -66,6 +68,18 @@ def create_review():
 
     reviews.add_review(title, author, year, description, user_id, classes)
     return redirect("/")
+
+@app.route("/new_comment", methods=["POST"])
+def new_comment():
+    review_id = request.form["review_id"]
+    user_id = session["user_id"]
+    comment = request.form["comment"]
+    review = reviews.get_review(review_id)
+
+
+    reviews.add_comment(review_id, user_id, comment)
+
+    return redirect("/review/" + str(review_id))
 
 @app.route("/edit_review/<int:review_id>")
 def edit_review(review_id):
