@@ -19,14 +19,18 @@
     <p>
         Julkaisuvuosi: {{ review.year }}
     </p>
+    {% if classes %}
     <p>
-        Genre: {{ review.genre }}
+        Luokat:
+        <ul>
+            {% for class in classes %}
+            <li>{{ class.title }}: {{ class.value }} </li>
+            {% endfor %}
+        </ul>
     </p>
+    {% endif %}
     <p>
         Arvostelu: {{ review.description }}
-    </p>
-    <p>
-        Tähdet: {{ review.stars }}/5
     </p>
     <p>
         Arvostelija: <a href="/user/{{review.id}}">{{ review.username }}</a> 

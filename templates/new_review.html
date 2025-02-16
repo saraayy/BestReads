@@ -21,17 +21,36 @@
         <input type="text" name="year" size="5" /> 
     </p>
     <p>
-        Genre: <br />
-        <input type="text" name="genre" size="15" /> 
+      Genre: <br />
+      <select name="genre">
+        <option value="">valitse</option>
+        <option value="fiktio">fiktio</option>
+        <option value="elämäkerta">elämäkerta</option>
+        <option value="tiedekirjallisuus">tiedekirjallisuus</option>
+        <option value="fantasia">fantasia</option>
+        <option value="scifi">scifi</option>
+        <option value="romantiikka">romantiikka</option>
+        <option value="rikos">rikos</option>
+        <option value="kauhu">kauhu</option>
+      </select>
     </p>
     <p>
         Arvostelu: <br />
         <textarea name="description" rows="8" cols="60"></textarea>
     </p>
     <p>
-        Tähtiarvio: <br />
-        <input type="text" name="stars" size="5" /> /5
+      Tähtiarvio: <br />
+      <select name="stars">
+        <option value="">valitse</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+
+      </select>
     </p>
+
     <input type="submit" value="Lähetä arvostelu" />
   </form>
 </body>

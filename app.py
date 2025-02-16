@@ -39,7 +39,8 @@ def register():
 @app.route("/review/<int:review_id>")
 def show_review(review_id):
     review = reviews.get_review(review_id)
-    return render_template("show_review.html", review=review)
+    classes = reviews.get_classes(review_id)
+    return render_template("show_review.html", review=review, classes=classes)
 
 
 @app.route("/new_review")
@@ -51,13 +52,19 @@ def create_review():
     title = request.form["title"]
     author = request.form["author"]
     year = request.form["year"]
-    genre = request.form["genre"]
     description = request.form["description"]
-    stars = request.form["stars"]
     user_id = session["user_id"]
 
-    reviews.add_review(title, author, year, genre, description, stars, user_id)
+    classes = []
 
+    genre = request.form["genre"]
+    if genre:
+        classes.append(("Genre", genre))
+    stars = request.form["stars"]
+    if stars:
+        classes.append(("Tähtiarvio", stars))
+
+    reviews.add_review(title, author, year, description, user_id, classes)
     return redirect("/")
 
 @app.route("/edit_review/<int:review_id>")

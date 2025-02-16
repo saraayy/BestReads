@@ -5,13 +5,19 @@ CREATE TABLE users (
 );
 
 
-CREATE TABLE reviews(
+CREATE TABLE reviews_new(
     id INTEGER PRIMARY KEY,
     title TEXT,
     author TEXT,
     year INTEGER,
-    genre TEXT,
     description TEXT,
-    stars INTEGER,
     user_id INTEGER REFERENCES users
+);
+
+
+CREATE TABLE review_classes (
+    id INTEGER PRIMARY KEY,
+    review_id INTEGER REFERENCES reviews,
+    title TEXT,
+    value TEXT
 );
