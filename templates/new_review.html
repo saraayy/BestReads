@@ -20,37 +20,21 @@
         Julkaisuvuosi: <br />
         <input type="text" name="year" size="5" /> 
     </p>
+    {% for class in classes %}
     <p>
-      Genre: <br />
-      <select name="genre">
+      {{ class }}: <br />
+      <select name="classes">
         <option value="">valitse</option>
-        <option value="fiktio">fiktio</option>
-        <option value="elämäkerta">elämäkerta</option>
-        <option value="tiedekirjallisuus">tiedekirjallisuus</option>
-        <option value="fantasia">fantasia</option>
-        <option value="scifi">scifi</option>
-        <option value="romantiikka">romantiikka</option>
-        <option value="rikos">rikos</option>
-        <option value="kauhu">kauhu</option>
+      {% for option in classes[class] %}
+      <option value="{{ class }}: {{ option }}">{{ option }}</option>
+      {% endfor %}
       </select>
     </p>
+    {% endfor %}
     <p>
         Arvostelu: <br />
         <textarea name="description" rows="8" cols="60" maxlength="1000"></textarea>
     </p>
-    <p>
-      Tähtiarvio: <br />
-      <select name="stars">
-        <option value="">valitse</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-
-      </select>
-    </p>
-
     <input type="submit" value="Lähetä arvostelu" />
   </form>
 </body>
