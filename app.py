@@ -1,7 +1,7 @@
 import sqlite3
 from flask import Flask
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import redirect, render_template, request, session
+from flask import abort, redirect, render_template, request, session
 import config
 import db
 import reviews
@@ -51,6 +51,7 @@ def new_review():
 
 @app.route("/create_review", methods=["POST"])
 def create_review():
+
     title = request.form["title"]
     author = request.form["author"]
     year = request.form["year"]
@@ -84,10 +85,16 @@ def new_comment():
 @app.route("/edit_review/<int:review_id>")
 def edit_review(review_id):
     review = reviews.get_review(review_id)
+    if review["user_id"] != session["user_id"]:
+        abort(403)
     return render_template("edit_review.html", review=review)
 
 @app.route("/update_review", methods=["POST"])
 def update_review():
+    review_id = request.form["review_id"]
+    review = reviews.get_review(review_id)
+    if review["user_id"] != session["user_id"]:
+        abort(403)
     review_id = request.form["review_id"]
     title = request.form["title"]
     author = request.form["author"]
@@ -103,8 +110,11 @@ def update_review():
 
 @app.route("/remove_review/<int:review_id>", methods=["GET", "POST"])
 def remove_review(review_id):
+    review = reviews.get_review(review_id)
+    if review["user_id"] != session["user_id"]:
+        abort(403)
+
     if request.method == "GET":
-        review = reviews.get_review(review_id)
         return render_template("remove_review.html", review=review)
 
     if request.method == "POST":
