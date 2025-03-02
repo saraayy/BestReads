@@ -58,9 +58,13 @@ def new_review():
 def create_review():
     require_login()
     title = request.form["title"]
+    if len(title) > 50:
+        abort(403)
     author = request.form["author"]
     year = request.form["year"]
     description = request.form["description"]
+    if len(description) > 1000:
+        abort(403)
     user_id = session["user_id"]
 
     classes = []
