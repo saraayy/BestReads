@@ -69,10 +69,11 @@ def create_review():
     user_id = session["user_id"]
 
     classes = []
-    for entry in request.formgetlist("classes"):
+    for entry in request.form.getlist("classes"):
         if entry:
             parts = entry.split(":")
             classes.append((parts[0],parts[1]))
+    reviews.add_review(title, author, year, description, user_id, classes)
     return redirect("/")
 
 @app.route("/new_comment", methods=["POST"])
@@ -128,6 +129,8 @@ def remove_review(review_id):
 
     if request.method == "POST":
         if "remove" in request.form:
+            reviews.remove_comments(review_id)
+            reviews.remove_review_classes(review_id)
             reviews.remove_review(review_id)
             return redirect("/")
 

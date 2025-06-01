@@ -75,3 +75,11 @@ def find_reviews(query):
             ORDER BY id DESC"""
 
     return db.query(sql, ["%" + query + "%", "%" + query + "%"])
+
+def remove_comments(review_id):
+    sql = "DELETE FROM comments WHERE review_id = ?"
+    db.execute(sql, [review_id])
+
+def remove_review_classes(review_id):
+    sql = "DELETE FROM review_classes WHERE review_id = ?"
+    db.execute(sql, [review_id])
