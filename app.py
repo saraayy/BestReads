@@ -97,22 +97,38 @@ def edit_review(review_id):
         abort(403)
     return render_template("edit_review.html", review=review)
 
+
 @app.route("/update_review", methods=["POST"])
-def update_review():
+def update_review_route():
     require_login()
+
+    required_fields = ["review_id", "title", "author", "year", "description"]
+    missing_fields = [key for key in required_fields if key not in request.form]
+
+    if missing_fields:
+        print(f"Missing fields: {missing_fields}")
+        return "Bad Request: Missing fields", 400
+
     review_id = request.form["review_id"]
     review = reviews.get_review(review_id)
+
+    if review is None:
+        return "Bad Request: Review not found", 400
+
     if review["user_id"] != session["user_id"]:
         abort(403)
-    review_id = request.form["review_id"]
+
     title = request.form["title"]
     author = request.form["author"]
     year = request.form["year"]
-    genre = request.form["genre"]
     description = request.form["description"]
-    stars = request.form["stars"]
 
-    reviews.update_review(review_id, title, author, year, genre, description, stars)
+    genre = review.get("genre", None)
+    stars = review.get("stars", None)
+
+    print(f"Updating review {review_id}: title={title}, author={author}, year={year}, description={description}, genre={genre}, stars={stars}")
+
+    reviews.update_review(review_id, title, author, year, description)
 
     return redirect("/review/" + str(review_id))
 

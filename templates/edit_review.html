@@ -8,6 +8,8 @@
 <body>
     <h1>Arvostelun muokkaus</h1>
   <form action="/update_review" method="post">
+    <input type="hidden" name="review_id" value="{{ review.id }}"/>
+
     <p>
       Kirja: <br />
       <input type="text" name="title" maxlength="50" value="{{ review.title }}"/>
@@ -24,7 +26,17 @@
         Arvostelu: <br />
         <textarea name="description" rows="8" cols="60" maxlength="1000">{{ review.description }}</textarea>
     </p>
-    <input type = "hidden" name = "review_id" value="{{ review.id }}"/>
+    <p>
+        Genre: <br />
+        <span>{{ review.genre }}</span>
+        <input type="hidden" name="genre" value="{{ review.genre }}"/>
+    </p>
+    <p>
+        Tähtiä: <br />
+        <span>{{ review.stars }}</span>
+        <input type="hidden" name="stars" value="{{ review.stars }}"/>
+    </p>
+
     <input type="submit" value="Päivitä arvostelu"/>
   </form>
 </body>

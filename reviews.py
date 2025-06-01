@@ -43,21 +43,43 @@ def get_reviews():
     sql = "SELECT id, title, author, year FROM reviews ORDER by id DESC"
     return db.query(sql)
 
+
 def get_review(review_id):
-    sql = """SELECT reviews.id, reviews.title, reviews.author, reviews.year, reviews.description, users.id user_id, users.username
+    sql = """SELECT reviews.id, reviews.title, reviews.author, reviews.year, reviews.description, 
+                     users.id AS user_id, users.username
+              FROM reviews
+              JOIN users ON reviews.user_id = users.id
+              WHERE reviews.id = ?"""
 
-            FROM reviews, users
-            WHERE reviews.user_id = users.id
-            AND reviews.id = ? """
+    review_row = db.query(sql, [review_id])[0]
 
-    return db.query(sql, [review_id])[0]
+    review = {
+        'id': review_row['id'],
+        'title': review_row['title'],
+        'author': review_row['author'],
+        'year': review_row['year'],
+        'description': review_row['description'],
+        'user_id': review_row['user_id'],
+        'username': review_row['username']
+    }
+
+    sql_classes = "SELECT title, value FROM review_classes WHERE review_id = ?"
+    classes = db.query(sql_classes, [review_id])
+
+    review_classes = {title: value for title, value in classes}
+
+    review['genre'] = review_classes.get('genre', None)
+    review['stars'] = review_classes.get('stars', None)
+
+    return review
+
 
 
 def update_review(review_id, title, author, year, description):
     sql = """UPDATE reviews SET title = ?,
                                 author = ?,
                                 year = ?,
-                                description = ?,
+                                description = ?
                             WHERE id = ?"""
 
     db.execute(sql, [title, author, year, description, review_id])
@@ -83,3 +105,4 @@ def remove_comments(review_id):
 def remove_review_classes(review_id):
     sql = "DELETE FROM review_classes WHERE review_id = ?"
     db.execute(sql, [review_id])
+
