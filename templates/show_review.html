@@ -1,58 +1,50 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
+{% block title %}{{ review.title }}{% endblock %}
+{% block content %}
 
-<head>
-  <title>{{ review.title }}</title>
-</head>
 
-<body>
-    <h1>Kirja: {{ review.title }}</h1>
-    {% if session.user_id == review.user_id %}
-    <p>
-        <a href="/edit_review/{{ review.id }}">Muokkaa</a>
-        <a href="/remove_review/{{ review.id }}">Poista</a>
+<h2>Kirja: {{ review.title }}</h2>
+{% if session.user_id == review.user_id %}
+<p>
+    <a href="/edit_review/{{ review.id }}">Muokkaa</a>
+    <a href="/remove_review/{{ review.id }}">Poista</a>
 
-    </p>
-    {% endif %}
-    <p>
-        Kirjailija: {{ review.author }}
-    </p>
-    <p>
-        Julkaisuvuosi: {{ review.year }}
-    </p>
-    {% if classes %}
-    <p>
-        Luokat:
-        <ul>
-            {% for class in classes %}
-            <li>{{ class.title }}: {{ class.value }} </li>
-            {% endfor %}
-        </ul>
-    </p>
-    {% endif %}
-    <p>
-        Arvostelu: {{ review.description }}
-    </p>
-    <p>
-        Arvostelija: <a href="/user/{{review.id}}">{{ review.username }}</a> 
-    </p>
-    <h2>Kommentit</h2>
+</p>
+{% endif %}
+<p>
+    Kirjailija: {{ review.author }}
+</p>
+<p>
+    Julkaisuvuosi: {{ review.year }}
+</p>
+{% if classes %}
+<p>
+    Luokat:
     <ul>
-        {% for c in comments %}
-        <li><a href="/user/{{ c.user_id }}">{{ c.username }}</a>: {{ c.comment }}</li>
+        {% for class in classes %}
+        <li>{{ class.title }}: {{ class.value }} </li>
         {% endfor %}
     </ul>
-    <h2>Uusi kommentti</h2>
-    <form action = "/new_comment" method="post">
-        <input type="text" name="comment" rows="2" cols="15">
-        <input type ="hidden" name ="review_id" value="{{ review.id }}">
-        <input type="submit" value="Lähetä" />
+</p>
+{% endif %}
+<p>
+    Arvostelu: {{ review.description }}
+</p>
+<p>
+    Arvostelija: <a href="/user/{{review.id}}">{{ review.username }}</a>
+</p>
+<h3>Kommentit</h3>
+<ul>
+    {% for c in comments %}
+    <li><a href="/user/{{ c.user_id }}">{{ c.username }}</a>: {{ c.comment }}</li>
+    {% endfor %}
+</ul>
+<h3>Uusi kommentti</h3>
+<form action = "/new_comment" method="post">
+    <input type="text" name="comment" rows="2" cols="15">
+    <input type ="hidden" name ="review_id" value="{{ review.id }}">
+    <input type="submit" value="Lähetä" />
 
-    </form>
-    <p>
-        <a href ="/">Takaisin</a>
-    </p>
+</form>
 
-</body>
-
-</html>
+{% endblock %}

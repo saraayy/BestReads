@@ -1,39 +1,14 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
+{% block title %}BestReads{% endblock %}
 
-<head>
-  <title>BestReads</title>
-</head>
+{% block content %}
 
-<body>
-  <h1>BestReads</h1>
+<h2>Arvostelut</h2>
 
-  {% if session.username %}
-  <p>
-    Olet kirjautunut nimellä {{ session.username }}
-  </p>
-  {% endif %}
+<ul>
+  {% for review in reviews %}
+  <li><a href = "/review/{{ review.id }}">{{ review.title }}</a></li>
+  {% endfor %}
+</ul>
 
-  <p>
-    <a href = "/find_review">Etsi arvostelu</a> |
-    {% if session.user_id %}
-    <a href = "/new_review">Uusi arvostelu</a> |
-    <a href ="/logout">Kirjaudu ulos</a>
-    {% else %}
-      <a href ="/login">Kirjaudu sisään</a> |
-      <a href ="/register">Luo tunnus</a>
-    {% endif %}
-  </p>
-
-
-  <h2>Arvostelut</h2>
-
-  <ul>
-    {% for review in reviews %}
-    <li><a href = "/review/{{ review.id }}">{{ review.title }}</a></li>
-    {% endfor %}
-  </ul>
-
-</body>
-
-</html>
+{% endblock %}
