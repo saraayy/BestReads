@@ -18,3 +18,10 @@
 
 # Tilastot
 - Käyttäjäsivu näyttää monta arvostelua käyttäjä on lisännyt ja listan käyttäjän arvosteluista.
+
+
+# Käyttöönottoohjeet (ei kirjoiteta $)
+- Luo hakemistoon Pythonin virtuaaliympäristö: $ python3 -m venv venv
+- Laita virtuaaliympäristö käyntiin: $ source venv/bin/activate
+- Asenna flask kirjasto: $ pip install flask
+- Mene sovellukseen: $ flask run

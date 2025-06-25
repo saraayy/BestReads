@@ -40,13 +40,19 @@ def get_classes(review_id):
 
 
 def get_reviews():
-    sql = "SELECT id, title, author, year FROM reviews ORDER by id DESC"
+    sql = """ SELECT reviews.id, reviews.title, reviews.author, reviews.year,
+               users.id AS user_id, users.username, COUNT(comments.id) comments_count
+        FROM reviews
+        JOIN users ON reviews.user_id = users.id
+        LEFT JOIN comments ON reviews.id = comments.review_id
+        GROUP BY reviews.id, reviews.title, reviews.author, reviews.year, users.id, users.username
+        ORDER BY reviews.id DESC"""
     return db.query(sql)
 
 
 def get_review(review_id):
     sql = """SELECT reviews.id, reviews.title, reviews.author, reviews.year, reviews.description, 
-                     users.id AS user_id, users.username
+                     users.id user_id, users.username
               FROM reviews
               JOIN users ON reviews.user_id = users.id
               WHERE reviews.id = ?"""

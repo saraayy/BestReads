@@ -5,10 +5,13 @@
 
 <h2>Arvostelut</h2>
 
-<ul>
-  {% for review in reviews %}
-  <li><a href = "/review/{{ review.id }}">{{ review.title }}</a></li>
-  {% endfor %}
-</ul>
+
+{% for review in reviews %}
+<div class = "review">
+<a href = "/review/{{ review.id }}">{{ review.title }}</a><br />
+Arvostelija: <a href="/user/{{ review.user_id }}">{{ review.username }}</a> <br />
+Kommenttien määrä: {{ review.comments_count }}
+</div>
+{% endfor %}
 
 {% endblock %}
