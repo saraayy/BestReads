@@ -8,6 +8,7 @@ import reviews
 import users
 import secrets
 import markupsafe
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -77,6 +78,13 @@ def create_review():
     if len(title) > 50:
         abort(403)
     author = request.form["author"]
+    try:
+        year = int(request.form["year"])
+        current_year = datetime.now().year
+        if year < 0 or year > current_year:
+            abort(403)
+    except ValueError:
+        abort(403)
     year = request.form["year"]
     description = request.form["description"]
     if len(description) > 1000:
@@ -132,7 +140,13 @@ def update_review_route():
 
     title = request.form["title"]
     author = request.form["author"]
-    year = request.form["year"]
+    try:
+        year = int(request.form["year"])
+        current_year = datetime.now().year
+        if year < 0 or year > current_year:
+            abort(403)
+    except ValueError:
+        abort(403)
     description = request.form["description"]
 
     genre = review.get("genre", None)
