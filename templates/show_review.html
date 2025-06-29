@@ -28,7 +28,7 @@
 </p>
 {% endif %}
 <p>
-    Arvostelu: {{ review.description }}
+    Arvostelu: {{ review.description | show_lines}}
 </p>
 <p>
     Arvostelija: <a href="/user/{{review.id}}">{{ review.username }}</a>

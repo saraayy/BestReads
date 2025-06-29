@@ -7,6 +7,7 @@ import db
 import reviews
 import users
 import secrets
+import markupsafe
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -21,6 +22,11 @@ def check_csrf():
     if request.form["csrf_token"] != session["csrf_token"]:
         abort(403)
 
+@app.template_filter()
+def show_lines(content):
+    content = str(markupsafe.escape(content))
+    content = content.replace("\n", "<br />")
+    return markupsafe.Markup(content)
 
 @app.route("/")
 def index():
@@ -116,14 +122,10 @@ def update_review_route():
     missing_fields = [key for key in required_fields if key not in request.form]
 
     if missing_fields:
-        print(f"Missing fields: {missing_fields}")
         return "Bad Request: Missing fields", 400
 
     review_id = request.form["review_id"]
     review = reviews.get_review(review_id)
-
-    if review is None:
-        return "Bad Request: Review not found", 400
 
     if review["user_id"] != session["user_id"]:
         abort(403)
@@ -180,11 +182,12 @@ def create():
     except sqlite3.IntegrityError:
         return "VIRHE: tunnus on jo varattu"
 
-    return "Tunnus luotu"
+    return redirect("/")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
+        session["csrf_token"] = secrets.token_hex(16)
         return render_template("login.html")
     if request.method == "POST":
         check_csrf()
