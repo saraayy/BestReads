@@ -11,7 +11,7 @@
 - Käyttäjä pystyy antamaan kirjalle tähtiluokituksen (1-5).
 
 # Lisätoiminnot
-- Käyttäjä näkee sovellukseen lisätyt arvostelut.
+- Käyttäjä näkee sovellukseen lisätyt arvostelut etusivulla.
 - Käyttäjä pystyy etsimään kirjoja hakusanalla.
 - Käyttäjä pystyy kommentoimaan toisen käyttäjän kirja-arvostelua.
 
