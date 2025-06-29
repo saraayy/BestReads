@@ -31,6 +31,7 @@
       Arvostelu: <br />
       <textarea name="description" rows="8" cols="60" maxlength="1000"></textarea>
   </p>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Lähetä arvostelu" />
 </form>
 

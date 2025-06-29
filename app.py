@@ -6,6 +6,7 @@ import config
 import db
 import reviews
 import users
+import secrets
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -13,6 +14,13 @@ app.secret_key = config.secret_key
 def require_login():
     if "user_id" not in session:
         abort(403)
+
+def check_csrf():
+    if "csrf_token" not in request.form:
+        abort(403)
+    if request.form["csrf_token"] != session["csrf_token"]:
+        abort(403)
+
 
 @app.route("/")
 def index():
@@ -58,6 +66,7 @@ def new_review():
 @app.route("/create_review", methods=["POST"])
 def create_review():
     require_login()
+    check_csrf()
     title = request.form["title"]
     if len(title) > 50:
         abort(403)
@@ -79,6 +88,7 @@ def create_review():
 @app.route("/new_comment", methods=["POST"])
 def new_comment():
     require_login()
+    check_csrf()
     review_id = request.form["review_id"]
     user_id = session["user_id"]
     comment = request.form["comment"]
@@ -101,7 +111,7 @@ def edit_review(review_id):
 @app.route("/update_review", methods=["POST"])
 def update_review_route():
     require_login()
-
+    check_csrf()
     required_fields = ["review_id", "title", "author", "year", "description"]
     missing_fields = [key for key in required_fields if key not in request.form]
 
@@ -144,6 +154,7 @@ def remove_review(review_id):
         return render_template("remove_review.html", review=review)
 
     if request.method == "POST":
+        check_csrf()
         if "remove" in request.form:
             reviews.remove_comments(review_id)
             reviews.remove_review_classes(review_id)
@@ -176,6 +187,7 @@ def login():
     if request.method == "GET":
         return render_template("login.html")
     if request.method == "POST":
+        check_csrf()
         username = request.form["username"]
         password = request.form["password"]
         sql = "SELECT id, password_hash FROM users WHERE username = ?"
@@ -186,6 +198,7 @@ def login():
         if check_password_hash(password_hash, password):
             session["user_id"] = user_id
             session["username"] = username
+            session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         else:
             return "VIRHE: väärä tunnus tai salasana"

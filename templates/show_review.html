@@ -43,6 +43,7 @@
 <form action = "/new_comment" method="post">
     <input type="text" name="comment" rows="2" cols="15">
     <input type ="hidden" name ="review_id" value="{{ review.id }}">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Lähetä" />
 
 </form>

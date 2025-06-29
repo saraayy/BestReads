@@ -33,6 +33,7 @@
       <input type="hidden" name="stars" value="{{ review.stars }}"/>
   </p>
 
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Päivitä arvostelu"/>
 </form>
 
