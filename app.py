@@ -186,6 +186,11 @@ def create():
     username = request.form["username"]
     password1 = request.form["password1"]
     password2 = request.form["password2"]
+
+    if len(username) < 3:
+        return "VIRHE: käyttäjätunnuksen pitää olla vähintään 3 merkkiä pitkä"
+    if len(password1) < 3:
+        return "VIRHE: salasanan pitää olla vähintään 3 merkkiä pitkä"
     if password1 != password2:
         return "VIRHE: salasanat eivät ole samat"
     password_hash = generate_password_hash(password1)
